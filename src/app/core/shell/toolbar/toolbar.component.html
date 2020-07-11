@@ -1,0 +1,245 @@
+<mat-toolbar fxLayout="row" color="primary" id="mifosx-toolbar">
+
+  <button mat-icon-button *ngIf="!sidenavCollapsed" (click)="toggleSidenav()" matTooltip="Toggle Hide/Open">
+    <fa-icon icon="bars" size="lg"></fa-icon>
+  </button>
+
+  <button mat-icon-button *ngIf="sidenav.opened" (click)="toggleSidenavCollapse()" matTooltip="Toggle Collapse" fxHide.lt-md="true">
+    <fa-icon *ngIf="!sidenavCollapsed" icon="chevron-left"></fa-icon>
+    <fa-icon *ngIf="sidenavCollapsed" icon="chevron-right"></fa-icon>
+  </button>
+
+  <nav mat-tab-nav-bar backgroundColor="primary" class="ml-1">
+
+    <a #institution mat-tab-link class="tab-link" [matMenuTriggerFor]="institutionMenu" #institutionMenuTrigger="matMenuTrigger">
+      <fa-icon class="mr-05" icon="university" size="lg"></fa-icon>
+      Institution
+    </a>
+
+    <span fxHide.lt-lg="true">
+
+      <a #accounting mat-tab-link class="tab-link" [routerLink]="['/accounting']">
+        <fa-icon class="mr-05" icon="money-bill-alt" size="lg"></fa-icon>
+        Accounting
+      </a>
+      <a #reports mat-tab-link class="tab-link" [matMenuTriggerFor]="reportsMenu" #reportsMenuTrigger="matMenuTrigger" >
+        <fa-icon class="mr-05" icon="chart-bar" size="lg"></fa-icon>
+        Reports
+      </a>
+      <a #admin mat-tab-link class="tab-link" [matMenuTriggerFor]="adminMenu" #adminMenuTrigger="matMenuTrigger">
+        <fa-icon class="mr-05" icon="shield-alt" size="lg"></fa-icon>
+        Admin
+      </a>
+      <a #selfService mat-tab-link class="tab-link" [matMenuTriggerFor]="selfServiceMenu" #selfServiceMenuTrigger="matMenuTrigger">
+        <fa-icon class="mr-05" icon="users" size="lg"></fa-icon>
+        Self Service
+      </a>
+
+      <a #configWizard mat-tab-link class="tab-link" (click)="openDialog()">
+        <fa-icon class="mr-05" icon="info" size="lg"></fa-icon>
+        Configuration Wizard
+      </a>
+
+    </span>
+
+  </nav>
+
+  <span fxFlex="auto"></span>
+
+  <!--
+    TODO: Search
+    Separate into its own component in shared module for reuse.
+    Implement functionality.
+  -->
+
+  <!-- <button #step1g> Hi</button> -->
+  <div *ngIf="searchVisible" class="search-bar" fxFlex="auto" fxHide.lt-sm="true" [@fadeInOut]>
+    <mat-form-field class="search">
+      <mat-label>Search</mat-label>
+      <input matInput type="text" (focusout)="toggleSearchVisibility()">
+    </mat-form-field>
+  </div>
+
+  <div #globalSearch>
+    <button mat-icon-button class="ml-1" (click)="toggleSearchVisibility()" fxHide.lt-sm="true">
+      <fa-icon icon="search" size="lg"></fa-icon>
+    </button>
+  </div>
+
+  <div #languageSelector>
+    <mifosx-language-selector class="ml-1 language" fxHide.lt-md></mifosx-language-selector>
+  </div>
+
+  <div #themePicker>
+    <mifosx-theme-picker fxHide.lt-md></mifosx-theme-picker>
+  </div>
+  
+  <!--
+    TODO: Notifications
+    Separate into its own component in shared module for reuse.
+    Implement functionality.
+  -->
+  <div #notifications>
+    <button mat-icon-button class="ml-1" matTooltip="Notifications">
+      <fa-icon icon="bell" size="lg"></fa-icon>
+    </button>
+  </div>
+
+  <div #appMenu>
+    <button mat-icon-button class="ml-1 img-button" [matMenuTriggerFor]="applicationMenu">
+      <img src="assets/images/user_placeholder.png">
+    </button>
+  </div>
+</mat-toolbar>
+
+<mat-menu #institutionMenu="matMenu" [overlapTrigger]="false">
+  <button mat-menu-item routerLink="/clients">Clients</button>
+  <button mat-menu-item routerLink="/groups">Groups</button>
+  <button mat-menu-item routerLink="/centers">Centers</button>
+  <span fxHide.lg>
+    <button mat-menu-item [routerLink]="['/accounting']">Accounting</button>
+    <button mat-menu-item [matMenuTriggerFor]="reportsMenu">Reports</button>
+    <button mat-menu-item [matMenuTriggerFor]="adminMenu">Admin</button>
+    <button mat-menu-item [matMenuTriggerFor]="selfServiceMenu">Self Service</button>
+  </span>
+</mat-menu>
+
+<!-- Toolbar Menus -->
+<mat-menu #reportsMenu="matMenu" [overlapTrigger]="false">
+  <button mat-menu-item [routerLink]="['/reports']">All</button>
+  <button mat-menu-item [routerLink]="['/reports', 'Client']">Clients</button>
+  <button mat-menu-item [routerLink]="['/reports', 'Loan']">Loans</button>
+  <button mat-menu-item [routerLink]="['/reports', 'Savings']">Savings</button>
+  <button mat-menu-item [routerLink]="['/reports', 'Fund']">Funds</button>
+  <button mat-menu-item [routerLink]="['/reports', 'Accounting']">Accounting</button>
+  <button mat-menu-item>XBRL</button>
+</mat-menu>
+
+<mat-menu #adminMenu="matMenu" [overlapTrigger]="false">
+  <button mat-menu-item [routerLink]="['/users']">Users</button>
+  <button mat-menu-item [routerLink]="['/organization']">Organization</button>
+  <button mat-menu-item [routerLink]="['/system']">System</button>
+  <button mat-menu-item [routerLink]="['/products']">Products</button>
+  <button mat-menu-item [routerLink]="['/templates']">Templates</button>
+</mat-menu>
+
+<mat-menu #selfServiceMenu="matMenu" [overlapTrigger]="false">
+  <button mat-menu-item [routerLink]="['/self-service/users']">User Management</button>
+  <button mat-menu-item [routerLink]="['/self-service/app-configuration']">App Configuration</button>
+  <button mat-menu-item [routerLink]="['/self-service/task-management']">Task Management</button>
+</mat-menu>
+
+<!-- Application User Help Menu -->
+<mat-menu #applicationMenu="matMenu" [overlapTrigger]="false">
+  <button mat-menu-item [routerLink]="['/settings']">
+    <mat-icon>
+      <fa-icon icon="cog" size="sm"></fa-icon>
+    </mat-icon>
+    <span>Settings</span>
+  </button>
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>
+        <fa-icon icon="sign-out-alt" size="sm"></fa-icon>
+    </mat-icon>
+    <span>Sign Out</span>
+  </button>
+</mat-menu>
+
+
+<ng-template #templateInstitution let-popover="popover">
+  <h2>Institution</h2>
+  <p class="mw300">This button will be used for individual accounts, groups and centers</p>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateAccounting, accounting)">Next</button>
+  </div>
+</ng-template>
+
+<ng-template #templateAccounting let-popover="popover">
+  <h2>Accounting</h2>
+  <p class="mw300">This button opens the menu to access the system tools required by the accounting department.</p>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateInstitution, institution)">Back</button>
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateReports, reports)">Next</button>
+  </div>
+</ng-template>
+
+<ng-template #templateReports let-popover="popover">
+  <h2>Reports</h2>
+  <p class="mw300">Dropdown provides access to all types of system reports including the defualt reports provided by the Mifos and system reports that will be developed by the organization.</p>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateAccounting, accounting)">Back</button>
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateAdmin, admin)">Next</button>
+  </div>
+</ng-template>
+
+<ng-template #templateAdmin let-popover="popover">
+  <h2>Admin</h2>
+  <p class="mw300">This is where the system is setup according to your organization including users, organization, products and templates.</p>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateReports, reports)">Back</button>
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateSelfService, selfService)">Next</button>
+  </div>
+</ng-template>
+
+<ng-template #templateSelfService let-popover="popover">
+  <h2>Self Service</h2>
+  <p class="mw300">Dropdown provides access to self service user administrative portal, app configuration and task management.</p>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateAdmin, admin)">Back</button>
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateConfigWizard, configWizard)">Next</button>
+  </div>
+</ng-template>
+
+<ng-template #templateConfigWizard let-popover="popover">
+  <h2>Configuration Wizard</h2>
+  <p class="mw300">This buttons opens up the configuration wizard to help the user in initial setup and application tour.</p>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateSelfService, selfService)">Back</button>
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateGlobalSearch, globalSearch)">Next</button>
+  </div>
+</ng-template>
+
+<ng-template #templateGlobalSearch let-popover="popover">
+  <h2>Global Search</h2>
+  <p class="mw300">This will allow the user to quickly navigate the system selecting entity while searching makes the navigation more robust.</p>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateConfigWizard, configWizard)">Back</button>
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover( templateLanguageSelector, languageSelector)">Next</button>
+  </div>
+</ng-template>
+
+<ng-template #templateLanguageSelector let-popover="popover">
+  <h2>Language Selector</h2>
+  <p class="mw300">Organization can select a language here from the available languages here.</p>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateGlobalSearch, globalSearch)">Back</button>
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateThemePicker, themePicker)">Next</button>
+  </div>
+</ng-template>
+
+<ng-template #templateThemePicker let-popover="popover">
+  <h2>Theme Picker</h2>
+  <p class="mw300">This will be used to choose a theme as per organization will.</p>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover( templateLanguageSelector, languageSelector)">Back</button>
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateNotifications, notifications)">Next</button>
+  </div>
+</ng-template>
+
+<ng-template #templateNotifications let-popover="popover">
+  <h2>Notifications</h2>
+  <p class="mw300">This shows all the notifications.</p>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateThemePicker, themePicker)">Back</button>
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateAppMenu, appMenu)">Next</button>
+  </div>
+</ng-template>
+
+<ng-template #templateAppMenu let-popover="popover">
+  <h2>Application Menu</h2>
+  <p class="mw300">This will have logged in user settings and sign out button.</p>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="2%" fxLayout.lt-md="column">
+    <button mat-raised-button color="primary" (click)="popover.close();showPopover(templateNotifications, notifications)">Back</button>
+    <button mat-raised-button color="primary" (click)="popover.close(); nextStep()">Next</button>
+  </div>
+</ng-template>

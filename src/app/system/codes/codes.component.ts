@@ -26,14 +26,21 @@ export class CodesComponent implements OnInit, AfterViewInit {
   /** Sorter for codes table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of create code button */
   @ViewChild('buttonCreateCode') buttonCreateCode: ElementRef<any>;
+  /* Template for popover on create code button */
   @ViewChild('templateButtonCreateCode') templateButtonCreateCode: TemplateRef<any>;
+  /* Reference of codes table */
   @ViewChild('tableCodes') tableCodes: ElementRef<any>;
+  /* Template for popover on codes table */
   @ViewChild('templateTableCodes') templateTableCodes: TemplateRef<any>;
 
   /**
    * Retrieves the codes data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -69,10 +76,20 @@ export class CodesComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showSystemCodesPage === true) {
       setTimeout(() => {
@@ -86,6 +103,9 @@ export class CodesComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Create Codes Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showSystemCodesPage = false;
     this.configurationWizardService.showSystemCodesList = false;
@@ -93,6 +113,9 @@ export class CodesComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/system/codes/create']);
   }
 
+  /**
+   * Previous Step (manage Codes System Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showSystemCodesPage = false;
     this.configurationWizardService.showSystemCodesList = false;

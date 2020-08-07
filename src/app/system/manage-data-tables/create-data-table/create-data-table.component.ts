@@ -62,7 +62,9 @@ export class CreateDataTableComponent implements OnInit, AfterViewInit {
   /** Sorter for columns table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of create datatables form */
   @ViewChild('dataTableFormRef') dataTableFormRef: ElementRef<any>;
+  /* Template for popover on create datatables form */
   @ViewChild('templateDataTableFormRef') templateDataTableFormRef: TemplateRef<any>;
 
   /**
@@ -72,6 +74,8 @@ export class CreateDataTableComponent implements OnInit, AfterViewInit {
    * @param {ActivatedRoute} route Activated Route.
    * @param {Router} router Router for navigation.
    * @param {MatDialog} dialog Dialog Reference.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private formBuilder: FormBuilder,
               private systemService: SystemService,
@@ -200,10 +204,20 @@ export class CreateDataTableComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showDatatablesForm === true) {
       setTimeout(() => {
@@ -212,18 +226,27 @@ export class CreateDataTableComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (System Codes Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showDatatablesForm = false;
     this.configurationWizardService.showSystemCodes = true;
     this.router.navigate(['/system']);
   }
 
+  /**
+   * Previous Step (Manage Datatables Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showDatatablesForm = false;
     this.configurationWizardService.showDatatablesList = true;
     this.router.navigate(['/system/data-tables']);
   }
 
+  /**
+   * Opens dialog if the user wants to create more datatables Configuration Wizard.
+   */
   openDialog() {
     const continueSetupDialogRef = this.dialog.open(ContinueSetupDialogComponent, {
       data: {

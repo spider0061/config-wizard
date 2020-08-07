@@ -35,7 +35,9 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
   /** Staff data. */
   staffData: any;
 
+  /* Reference of create user form */
   @ViewChild('userFormRef') userFormRef: ElementRef<any>;
+  /* Template for popover on create user form */
   @ViewChild('templateUserFormRef') templateUserFormRef: TemplateRef<any>;
 
   /**
@@ -44,6 +46,8 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
    * @param {UsersService} UsersService Users Service.
    * @param {ActivatedRoute} route Activated Route.
    * @param {Router} router Router for navigation.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private formBuilder: FormBuilder,
               private usersService: UsersService,
@@ -132,10 +136,20 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showUsersForm === true) {
     setTimeout(() => {
@@ -144,18 +158,27 @@ export class CreateUserComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Maker Checker Tasks System Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showUsersForm = false;
     this.configurationWizardService.showMakerCheckerTable = true;
     this.router.navigate(['/system']);
   }
 
+  /**
+   * Previous Step (Users page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showUsersForm = false;
     this.configurationWizardService.showUsersList = true;
     this.router.navigate(['/users']);
   }
 
+  /**
+   * Opens dialog if the user wants to create more users.
+   */
   openDialog() {
     const continueSetupDialogRef = this.dialog.open(ContinueSetupDialogComponent, {
       data: {

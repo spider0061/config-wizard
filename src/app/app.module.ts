@@ -37,7 +37,6 @@ import { ReportsModule } from './reports/reports.module';
 import { ConfigurationWizardModule } from './configuration-wizard/configuration-wizard.module';
 
 
-
 /** Main Routing Module */
 import { AppRoutingModule } from './app-routing.module';
 

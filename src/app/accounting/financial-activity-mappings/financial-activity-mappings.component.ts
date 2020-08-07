@@ -29,14 +29,21 @@ export class FinancialActivityMappingsComponent implements OnInit, AfterViewInit
   /** Sorter for financial activity mappings table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of define mapping button */
   @ViewChild('buttonDefineMapping') buttonDefineMapping: ElementRef<any>;
+  /* Template for popover on define mapping button */
   @ViewChild('templateButtonDefineMapping') templateButtonDefineMapping: TemplateRef<any>;
+  /* Reference of Activities table */
   @ViewChild('activitiesTable') activitiesTable: ElementRef<any>;
+  /* Template for popover on Activities table */
   @ViewChild('templateActivitiesTable') templateActivitiesTable: TemplateRef<any>;
 
   /**
    * Retrieves the financial activity accounts data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -71,10 +78,20 @@ export class FinancialActivityMappingsComponent implements OnInit, AfterViewInit
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showAccountsLinkedPage === true) {
       setTimeout(() => {
@@ -89,6 +106,9 @@ export class FinancialActivityMappingsComponent implements OnInit, AfterViewInit
     }
   }
 
+  /**
+   * Next Step (Migrate Opening Balances Accounting Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showAccountsLinkedPage = false;
     this.configurationWizardService.showAccountsLinkedList = false;
@@ -96,6 +116,9 @@ export class FinancialActivityMappingsComponent implements OnInit, AfterViewInit
     this.router.navigate(['/accounting']);
   }
 
+  /**
+   * Previous Step (Accounts Linked Accounting Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showAccountsLinkedPage = false;
     this.configurationWizardService.showAccountsLinkedList = false;

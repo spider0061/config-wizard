@@ -36,14 +36,21 @@ export class RecurringDepositProductsComponent implements OnInit, AfterViewInit 
   /** Sorter for recurring deposit products table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of create recurring deposit product button */
   @ViewChild('buttonCreateRecurringProduct') buttonCreateRecurringProduct: ElementRef<any>;
+  /* Template for popover on create recurring deposit product button */
   @ViewChild('templateButtonCreateRecurringProduct') templateButtonCreateRecurringProduct: TemplateRef<any>;
+  /* Reference of recurring deposit products table */
   @ViewChild('recurringProductsTable') recurringProductsTable: ElementRef<any>;
+  /* Template for popover on recurring deposit products table */
   @ViewChild('templateRecurringProductsTable') templateRecurringProductsTable: TemplateRef<any>;
 
   /**
    * Retrieves the recurring deposit products data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -79,6 +86,9 @@ export class RecurringDepositProductsComponent implements OnInit, AfterViewInit 
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showRecurringDepositProductsPage === true) {
       setTimeout(() => {
@@ -93,16 +103,29 @@ export class RecurringDepositProductsComponent implements OnInit, AfterViewInit 
     }
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * Opens Dialog for next step (Setup Funds and Manage Reports) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showRecurringDepositProductsPage = false;
     this.configurationWizardService.showRecurringDepositProductsList = false;
     this.openNextStepDialog();
   }
 
+  /**
+   * Previous Step (Recurring Deposit Products-Products Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showRecurringDepositProductsPage = false;
     this.configurationWizardService.showRecurringDepositProductsList = false;
@@ -110,6 +133,9 @@ export class RecurringDepositProductsComponent implements OnInit, AfterViewInit 
     this.router.navigate(['/products']);
   }
 
+  /**
+   * Next Step (Setup Funds and Manage Reports) Dialog Configuration Wizard.
+   */
   openNextStepDialog() {
     const nextStepDialogRef = this.dialog.open( NextStepDialogComponent, {
       data: {

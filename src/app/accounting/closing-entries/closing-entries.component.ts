@@ -39,14 +39,21 @@ export class ClosingEntriesComponent implements OnInit, AfterViewInit {
   /** Sorter for closing entries table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of create closure button */
   @ViewChild('buttonCreateClosure') buttonCreateClosure: ElementRef<any>;
+  /* Template for popover on create closure button */
   @ViewChild('templateButtonCreateClosure') templateButtonCreateClosure: TemplateRef<any>;
+  /* Reference of closures table */
   @ViewChild('closuresTable') closuresTable: ElementRef<any>;
+  /* Template for popover on closures table */
   @ViewChild('templateClosuresTable') templateClosuresTable: TemplateRef<any>;
 
   /**
    * Retrieves the offices and gl account closures data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -109,10 +116,20 @@ export class ClosingEntriesComponent implements OnInit, AfterViewInit {
     return this.officeData.filter((office: any) => office.name.toLowerCase().includes(officeName.toLowerCase()));
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showClosingEntriesPage === true) {
       setTimeout(() => {
@@ -127,6 +144,9 @@ export class ClosingEntriesComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Create journal Entry Accounting Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showClosingEntriesPage = false;
     this.configurationWizardService.showClosingEntriesList = false;
@@ -134,6 +154,9 @@ export class ClosingEntriesComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/accounting']);
   }
 
+  /**
+   * Previous Step (Closing Entries Accounting Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showClosingEntriesPage = false;
     this.configurationWizardService.showClosingEntriesList = false;

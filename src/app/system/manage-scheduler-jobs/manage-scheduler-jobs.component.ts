@@ -41,14 +41,22 @@ export class ManageSchedulerJobsComponent implements OnInit, AfterViewInit {
   /** Sorter for manage scheduler jobs table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of scheduler status */
   @ViewChild('schedulerStatus') schedulerStatus: ElementRef<any>;
+  /* Template for popover on scheduler status */
   @ViewChild('templateSchedulerStatus') templateSchedulerStatus: TemplateRef<any>;
+  /* Reference of jobs table */
   @ViewChild('jobsTable') jobsTable: ElementRef<any>;
+  /* Template for popover on jobs table */
   @ViewChild('templateJobsTable') templateJobsTable: TemplateRef<any>;
 
   /**
    * Retrieves the scheduler jobs data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Matdialog} matdialog Matdialog.
+   * @param {Router} router Router for navigation.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -112,10 +120,20 @@ export class ManageSchedulerJobsComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showSchedulerJobsPage === true) {
       setTimeout(() => {
@@ -129,12 +147,18 @@ export class ManageSchedulerJobsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Opens Dialog for next step.
+   */
   nextStep() {
     this.configurationWizardService.showSchedulerJobsPage = false;
     this.configurationWizardService.showSchedulerJobsList = false;
     this.openNextStepDialog();
   }
 
+  /**
+   * Previous Step (Scheduler Jobs) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showSchedulerJobsPage = false;
     this.configurationWizardService.showSchedulerJobsList = false;
@@ -142,6 +166,9 @@ export class ManageSchedulerJobsComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/system']);
   }
 
+  /**
+   * Next Step (Accounting) Dialog Configuration Wizard.
+   */
   openNextStepDialog() {
     const nextStepDialogRef = this.dialog.open( NextStepDialogComponent, {
       data: {

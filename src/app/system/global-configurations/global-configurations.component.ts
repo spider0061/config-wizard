@@ -30,9 +30,13 @@ export class GlobalConfigurationsComponent implements OnInit, AfterViewInit {
   /** Sorter for configurations table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of filter */
   @ViewChild('filter') filter: ElementRef<any>;
+  /* Template for popover on filter */
   @ViewChild('templateFilter') templateFilter: TemplateRef<any>;
+  /* Reference of configurations table */
   @ViewChild('configurationsTable') configurationsTable: ElementRef<any>;
+  /* Template for popover on configurations table */
   @ViewChild('templateConfigurationsTable') templateConfigurationsTable: TemplateRef<any>;
 
   /**
@@ -40,6 +44,8 @@ export class GlobalConfigurationsComponent implements OnInit, AfterViewInit {
    * @param {ActivatedRoute} route Activated Route.
    * @param {SystemService} systemService System Service.
    * @param {Router} router Router for navigation.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private systemService: SystemService,
@@ -85,10 +91,20 @@ export class GlobalConfigurationsComponent implements OnInit, AfterViewInit {
       });
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showConfigurationsPage === true) {
       setTimeout(() => {
@@ -103,6 +119,9 @@ export class GlobalConfigurationsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Scheduler Jobs System Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showConfigurationsPage = false;
     this.configurationWizardService.showConfigurationsList = false;
@@ -110,6 +129,9 @@ export class GlobalConfigurationsComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/system']);
   }
 
+  /**
+   * Previous Step (Global Configurations System Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showConfigurationsPage = false;
     this.configurationWizardService.showConfigurationsList = false;

@@ -42,7 +42,9 @@ export class WorkingDaysComponent implements OnInit, AfterViewInit {
   /**  Repayment schedule type data. */
   repaymentRescheduleTypeData: any;
 
+  /* Reference of define working days form */
   @ViewChild('workingDaysFormRef') workingDaysFormRef: ElementRef<any>;
+  /* Template for popover on define working days form */
   @ViewChild('templateWorkingDaysFormRef') templateWorkingDaysFormRef: TemplateRef<any>;
 
   /**
@@ -51,6 +53,9 @@ export class WorkingDaysComponent implements OnInit, AfterViewInit {
    * @param {ActivatedRoute} route Activated Route.
    * @param {OrganizationService} organizationService Organization Service.
    * @param {Router} router Router for navigation.
+   * @param {MatDialog} dialog MatDialog.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
@@ -125,6 +130,7 @@ export class WorkingDaysComponent implements OnInit, AfterViewInit {
     workingDays.recurrence = recurrence;
     this.organizationService.updateWorkingDays(workingDays).subscribe(response => {
       if (this.configurationWizardService.showDefineWorkingDays === true) {
+        this.configurationWizardService.showDefineWorkingDays = false;
         this.openNextStepDialog();
       } else {
         this.router.navigate(['../'], { relativeTo: this.route });
@@ -132,10 +138,20 @@ export class WorkingDaysComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showDefineWorkingDays === true) {
       setTimeout(() => {
@@ -144,15 +160,25 @@ export class WorkingDaysComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Open Dialog for next step.
+   * Next Step (System) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showDefineWorkingDays = false;
     this.openNextStepDialog();
   }
 
+  /**
+   * Previous Step (Organization Page) Configuration Wizard.
+   */
   previousStep() {
     this.router.navigate(['/organization']);
   }
 
+  /**
+   * Next Step (System) Dialog Configuration Wizard.
+   */
   openNextStepDialog() {
     const nextStepDialogRef = this.dialog.open( NextStepDialogComponent, {
       data: {

@@ -32,14 +32,21 @@ export class ChargesComponent implements OnInit, AfterViewInit {
   /** Sorter for charges table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of create charges button */
   @ViewChild('buttonCreateCharge') buttonCreateCharge: ElementRef<any>;
+  /* Template for popover on create charges button */
   @ViewChild('templateButtonCreateCharge') templateButtonCreateCharge: TemplateRef<any>;
+  /* Reference of charges table */
   @ViewChild('chargesTable') chargesTable: ElementRef<any>;
+  /* Template for popover on charges table */
   @ViewChild('templateChargesTable') templateChargesTable: TemplateRef<any>;
 
   /**
    * Retrieves the charges data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -80,6 +87,9 @@ export class ChargesComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showChargesPage === true) {
       setTimeout(() => {
@@ -94,10 +104,20 @@ export class ChargesComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * Next Step (Loan Products - Products Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showChargesPage = false;
     this.configurationWizardService.showChargesList = false;
@@ -105,6 +125,9 @@ export class ChargesComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/products']);
   }
 
+  /**
+   * Previous Step (Charges - Products Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showChargesPage = false;
     this.configurationWizardService.showChargesList = false;

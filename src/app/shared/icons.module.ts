@@ -90,6 +90,7 @@ import {
   faMoneyBill,
   faChartLine,
   faPen,
+  faFlag,
   faInfo
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -180,6 +181,7 @@ library.add(
   faMoneyBill,
   faChartLine,
   faPen,
+  faFlag,
   faInfo
 );
 

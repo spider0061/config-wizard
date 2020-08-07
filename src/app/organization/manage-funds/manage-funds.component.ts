@@ -35,7 +35,10 @@ export class ManageFundsComponent implements OnInit, AfterViewInit {
   fundForm: any;
   /** Funds form reference */
   @ViewChild('formRef') formRef: any;
+
+  /* Refernce of funds form */
   @ViewChild('fundFormRef') fundFormRef: ElementRef<any>;
+  /* Template for popover on funds form */
   @ViewChild('templateFundFormRef') templateFundFormRef: TemplateRef<any>;
 
   /**
@@ -44,6 +47,9 @@ export class ManageFundsComponent implements OnInit, AfterViewInit {
    * @param {FormBuilder} formBuilder Form Builder
    * @param {OrganizationService} organizationservice Organization Service
    * @param {MatDialog} dialog Mat Dialog
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private formBuilder: FormBuilder,
@@ -119,10 +125,20 @@ export class ManageFundsComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showManageFunds === true) {
       setTimeout(() => {
@@ -131,16 +147,25 @@ export class ManageFundsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Previous Step (Organization Page) Dialog Configuration Wizard.
+   */
   previousStep() {
     this.router.navigate(['/organization']);
   }
 
+  /**
+   * Next Step (Manage Reports) Dialog Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showManageFunds = false;
     this.configurationWizardService.showManageReports = true;
     this.router.navigate(['/system']);
   }
 
+  /**
+   * Opens dialog if the user wants  to edit more funds.
+   */
   openDialog() {
     const continueSetupDialogRef = this.dialog.open(ContinueSetupDialogComponent, {
       data: {

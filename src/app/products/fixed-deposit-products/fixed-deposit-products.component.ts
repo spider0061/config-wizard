@@ -32,14 +32,21 @@ export class FixedDepositProductsComponent implements OnInit, AfterViewInit {
   /** Sorter for fixed deposit products table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of create fixed product button */
   @ViewChild('buttonCreateFixedProduct') buttonCreateFixedProduct: ElementRef<any>;
+  /* Template for popover on create fixed product button */
   @ViewChild('templateButtonCreateFixedProduct') templateButtonCreateFixedProduct: TemplateRef<any>;
+  /* Reference of fixed deposit products table */
   @ViewChild('fixedProductsTable') fixedProductsTable: ElementRef<any>;
+  /* Template for popover on fixed deposit products table */
   @ViewChild('templateFixedProductsTable') templateFixedProductsTable: TemplateRef<any>;
 
   /**
    * Retrieves the fixed deposit products data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -74,6 +81,9 @@ export class FixedDepositProductsComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showFixedDepositProductsPage === true) {
       setTimeout(() => {
@@ -88,10 +98,20 @@ export class FixedDepositProductsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * Next Step (Recurring Deposits Products-Products Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showFixedDepositProductsPage = false;
     this.configurationWizardService.showFixedDepositProductsList = false;
@@ -99,6 +119,9 @@ export class FixedDepositProductsComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/products']);
   }
 
+  /**
+   * Previous Step (Fixed Deposits Products-Products Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showFixedDepositProductsPage = false;
     this.configurationWizardService.showFixedDepositProductsList = false;

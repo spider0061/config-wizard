@@ -32,14 +32,21 @@ export class OfficesComponent implements OnInit, AfterViewInit {
   /** Sorter for offices table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of tree view button */
   @ViewChild('buttonTreeView') buttonTreeView: ElementRef<any>;
+  /* Template for popover on tree view button */
   @ViewChild('templateButtonTreeView') templateButtonTreeView: TemplateRef<any>;
+  /* Reference of offices table */
   @ViewChild('tableOffices') tableOffices: ElementRef<any>;
+  /* Template for popover on offices table */
   @ViewChild('templateTableOffices') templateTableOffices: TemplateRef<any>;
 
   /**
    * Retrieves the offices data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -74,10 +81,20 @@ export class OfficesComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showOfficeList === true) {
       setTimeout(() => {
@@ -91,6 +108,9 @@ export class OfficesComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Create Office Form) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showOfficeList = false;
     this.configurationWizardService.showOfficeTable = false;
@@ -98,6 +118,9 @@ export class OfficesComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/organization/offices/create']);
   }
 
+  /**
+   * Previous Step ( Manage Offices Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showOfficeList = false;
     this.configurationWizardService.showOfficeTable = false;

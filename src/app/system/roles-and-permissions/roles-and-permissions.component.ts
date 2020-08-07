@@ -32,13 +32,20 @@ export class RolesAndPermissionsComponent implements OnInit, AfterViewInit {
   /** Sorter for roles and permissions table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of add role button */
   @ViewChild('buttonAddRole') buttonAddRole: ElementRef<any>;
+  /* Template for popovver on add role button */
   @ViewChild('templateButtonAddRole') templateButtonAddRole: TemplateRef<any>;
+  /* Reference of roles and permission table */
   @ViewChild('tableRolesandPermissions') tableRolesandPermissions: ElementRef<any>;
+  /* Template for roles and permission table */
   @ViewChild('templateTableRolesandPermissions') templateTableRolesandPermissions: TemplateRef<any>;
   /**
    * Retrieves the roles data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router for navigation.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -81,10 +88,20 @@ export class RolesAndPermissionsComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showRolesandPermissionPage === true) {
       setTimeout(() => {
@@ -98,6 +115,9 @@ export class RolesAndPermissionsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Users) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showRolesandPermissionPage = false;
     this.configurationWizardService.showRolesandPermissionList = false;
@@ -105,6 +125,9 @@ export class RolesAndPermissionsComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/users']);
   }
 
+  /**
+   * Previous Step (Roles and Permission System Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showRolesandPermissionPage = false;
     this.configurationWizardService.showRolesandPermissionList = false;

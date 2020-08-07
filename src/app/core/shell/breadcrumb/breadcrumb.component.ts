@@ -54,14 +54,17 @@ export class BreadcrumbComponent implements OnInit, AfterViewInit {
 
   /** Array of breadcrumbs. */
   breadcrumbs: Breadcrumb[];
-
+  /* Reference of breadcrumb */
   @ViewChild('breadcrumb') breadcrumb: ElementRef<any>;
+  /* Template for popover on breadcrumb */
   @ViewChild('templateBreadcrumb') templateBreadcrumb: TemplateRef<any>;
 
   /**
    * Generates the breadcrumbs.
    * @param {ActivatedRoute} activatedRoute Activated Route.
    * @param {Router} router Router for navigation.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -138,10 +141,20 @@ export class BreadcrumbComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showBreadcrumbs === true) {
     setTimeout(() => {
@@ -150,6 +163,9 @@ export class BreadcrumbComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Home) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showBreadcrumbs = false;
     this.configurationWizardService.showHome = true;
@@ -158,6 +174,9 @@ export class BreadcrumbComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/home']);
   }
 
+  /**
+   * Previous Step (SideNavBar) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showBreadcrumbs = false;
     this.configurationWizardService.showSideNavChartofAccounts = true;

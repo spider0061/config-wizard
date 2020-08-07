@@ -33,7 +33,9 @@ export class CreateOfficeComponent implements OnInit, AfterViewInit {
   /** Maximum Date allowed. */
   maxDate = new Date();
 
+  /* Reference of create office form */
   @ViewChild('createOfficeFormRef') createOfficeFormRef: ElementRef<any>;
+  /* template for popover on create office form */
   @ViewChild('templateCreateOfficeForm') templateCreateOfficeForm: TemplateRef<any>;
 
   /**
@@ -43,6 +45,9 @@ export class CreateOfficeComponent implements OnInit, AfterViewInit {
    * @param {ActivatedRoute} route Activated Route.
    * @param {Router} router Router for navigation.
    * @param {DatePipe} datePipe Date Pipe to format date.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private formBuilder: FormBuilder,
               private organizationService: OrganizationService,
@@ -97,33 +102,46 @@ export class CreateOfficeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Opens dialog if users wants to create more offices.
+   */
   openDialog() {
-  const continueSetupDialogRef = this.dialog.open(ContinueSetupDialogComponent, {
-    data: {
-      stepName: 'office'
-    },
-  });
-  continueSetupDialogRef.afterClosed().subscribe((response: { step: number }) => {
-    if (response.step === 1) {
-        this.configurationWizardService.showOfficeForm = false;
-        this.router.navigate(['../'], { relativeTo: this.route });
-      } else if (response.step === 2) {
-        this.configurationWizardService.showOfficeForm = true;
-        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-        this.router.onSameUrlNavigation = 'reload';
-        this.router.navigate(['/organization/offices/create']);
-      } else if (response.step === 3) {
-        this.configurationWizardService.showOfficeForm = false;
-        this.configurationWizardService.showAddEditCurrency = true;
-        this.router.navigate(['/organization']);
+    const continueSetupDialogRef = this.dialog.open(ContinueSetupDialogComponent, {
+      data: {
+        stepName: 'office'
+      },
+    });
+    continueSetupDialogRef.afterClosed().subscribe((response: { step: number }) => {
+      if (response.step === 1) {
+          this.configurationWizardService.showOfficeForm = false;
+          this.router.navigate(['../'], { relativeTo: this.route });
+        } else if (response.step === 2) {
+          this.configurationWizardService.showOfficeForm = true;
+          this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+          this.router.onSameUrlNavigation = 'reload';
+          this.router.navigate(['/organization/offices/create']);
+        } else if (response.step === 3) {
+          this.configurationWizardService.showOfficeForm = false;
+          this.configurationWizardService.showAddEditCurrency = true;
+          this.router.navigate(['/organization']);
       }
     });
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showOfficeForm === true) {
       setTimeout(() => {
@@ -132,12 +150,18 @@ export class CreateOfficeComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Add Edit Currency) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showOfficeForm = false;
     this.configurationWizardService.showAddEditCurrency = true;
     this.router.navigate(['/organization']);
   }
 
+  /**
+   * Previous Step (Manage Offices Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showOfficeForm = false;
     this.configurationWizardService.showOfficeTable = true;

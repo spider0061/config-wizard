@@ -18,7 +18,10 @@ export class CreateCodeComponent implements OnInit, AfterViewInit {
 
   /** Code form. */
   codeForm: FormGroup;
+
+  /* Reference of create code form */
   @ViewChild('codeFormRef') codeFormRef: ElementRef<any>;
+  /* Template for popover on create code form */
   @ViewChild('templateCodeFormRef') templateCodeFormRef: TemplateRef<any>;
 
   /**
@@ -26,6 +29,8 @@ export class CreateCodeComponent implements OnInit, AfterViewInit {
    * @param {SystemService} systemService Accounting Service.
    * @param {ActivatedRoute} route Activated Route.
    * @param {Router} router Router for navigation.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private formBuilder: FormBuilder,
               private systemService: SystemService,
@@ -67,10 +72,20 @@ export class CreateCodeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showSystemCodesForm === true) {
       setTimeout(() => {
@@ -79,12 +94,18 @@ export class CreateCodeComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Roles and Permission) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showSystemCodesForm = false;
     this.configurationWizardService.showRolesandPermission = true;
     this.router.navigate(['/system']);
   }
 
+  /**
+   * Previous Step (Manage Codes Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showSystemCodesForm = false;
     this.configurationWizardService.showSystemCodesList = true;

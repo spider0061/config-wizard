@@ -32,7 +32,9 @@ export class CreateEmployeeComponent implements OnInit, AfterViewInit {
   /** Office data. */
   officeData: any;
 
+  /* Reference of employee form */
   @ViewChild('createEmployeeFormRef') createEmployeeFormRef: ElementRef<any>;
+  /* Template for popover on employee form */
   @ViewChild('templateCreateEmployeeForm') templateCreateEmployeeForm: TemplateRef<any>;
 
   /**
@@ -42,6 +44,9 @@ export class CreateEmployeeComponent implements OnInit, AfterViewInit {
    * @param {ActivatedRoute} route Activated Route.
    * @param {Router} router Router for navigation.
    * @param {DatePipe} datePipe Date Pipe to format date.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
+   * @param {MatDialog} dialog MatDialog.
    */
   constructor(private formBuilder: FormBuilder,
               private organizationService: OrganizationService,
@@ -101,10 +106,20 @@ export class CreateEmployeeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showEmployeeForm === true) {
       setTimeout(() => {
@@ -113,18 +128,27 @@ export class CreateEmployeeComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Define Working Days) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showEmployeeForm = false;
     this.configurationWizardService.showDefineWorkingDays = true;
     this.router.navigate(['/organization']);
   }
 
+  /**
+   * Previous Step (Employees Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showEmployeeForm = false;
     this.configurationWizardService.showEmployeeTable = true;
     this.router.navigate(['/organization/employees']);
   }
 
+  /**
+   * Opens dialog if the user wants to create more employees.
+   */
   openDialog() {
     const continueSetupDialogRef = this.dialog.open(ContinueSetupDialogComponent, {
       data: {

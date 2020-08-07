@@ -46,15 +46,22 @@ export class ChartOfAccountsComponent implements AfterViewInit, OnInit {
   /** Sorter for chart of accounts table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of Tree View Button */
   @ViewChild('buttonTreeView') buttonTreeView: ElementRef<any>;
+  /* Template for popover on tree view button */
   @ViewChild('templateButtonTreeView') templateButtonTreeView: TemplateRef<any>;
+  /* Reference of Accounts Table */
   @ViewChild('accountsTable') accountsTable: ElementRef<any>;
+  /* Template for popover on accounts table */
   @ViewChild('templateAccountsTable') templateAccountsTable: TemplateRef<any>;
 
   /**
    * Retrieves the gl accounts data from `resolve` and initializes(generates) gl accounts tree.
    * @param {GlAccountTreeService} glAccountTreeService GL Account tree service.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private glAccountTreeService: GlAccountTreeService,
               private route: ActivatedRoute,
@@ -137,10 +144,20 @@ export class ChartOfAccountsComponent implements AfterViewInit, OnInit {
    */
   private _getChildren = (node: GLAccountNode) => of(node.children);
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * Next Step (Create Charts of Accounts Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showChartofAccountsPage = false;
     this.configurationWizardService.showChartofAccountsList = false;
@@ -148,6 +165,9 @@ export class ChartOfAccountsComponent implements AfterViewInit, OnInit {
     this.router.navigate(['/accounting/chart-of-accounts/gl-accounts/create']);
   }
 
+  /**
+   * Previous Step (Charts of Accounts Accounting Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showChartofAccountsPage = false;
     this.configurationWizardService.showChartofAccountsList = false;

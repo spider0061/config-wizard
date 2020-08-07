@@ -1,9 +1,13 @@
+/** Angular Imports */
 import { BasePortalOutlet, CdkPortalOutlet, ComponentPortal, TemplatePortal } from '@angular/cdk/portal';
 import { Component, ComponentRef, EmbeddedViewRef, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser';
+
+/** rxjs Imports */
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+/* Popover Ref */
 import { PopoverRef } from './popover-ref';
 
 /**

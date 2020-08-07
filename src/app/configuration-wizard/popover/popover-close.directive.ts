@@ -1,5 +1,7 @@
+/** Angular Imports */
 import { Directive, HostListener, Input, Optional } from '@angular/core';
 
+/** Popover Ref */
 import { PopoverRef } from './popover-ref';
 
 /**
@@ -11,6 +13,9 @@ import { PopoverRef } from './popover-ref';
 export class PopoverCloseDirective<T = any> {
   @Input('mifosxPopoverClose') popoverResult: T;
 
+  /**
+   * @param {PopoverRef<T>} popoverRef PopoverRef<T>.
+   */
   constructor(
     @Optional() private popoverRef: PopoverRef<T>
   ) {}

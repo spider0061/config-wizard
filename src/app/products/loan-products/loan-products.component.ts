@@ -21,11 +21,21 @@ export class LoanProductsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of create loan product button */
   @ViewChild('buttonCreateLoanProduct') buttonCreateLoanProduct: ElementRef<any>;
+  /* Template for popover on create loan product button */
   @ViewChild('templateButtonCreateLoanProduct') templateButtonCreateLoanProduct: TemplateRef<any>;
+  /* Reference of loan products table */
   @ViewChild('loanProductsTable') loanProductsTable: ElementRef<any>;
+  /* Template for popover on loan products table */
   @ViewChild('templateLoanProductsTable') templateLoanProductsTable: TemplateRef<any>;
 
+  /**
+   * @param {ActivatedRoute} route ActivatedRoute.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
+   */
   constructor(private route: ActivatedRoute,
               private router: Router,
               private configurationWizardService: ConfigurationWizardService,
@@ -45,6 +55,9 @@ export class LoanProductsComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showLoanProductsPage === true) {
       setTimeout(() => {
@@ -59,10 +72,20 @@ export class LoanProductsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * Next Step (Savings Products - Products Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showLoanProductsPage = false;
     this.configurationWizardService.showLoanProductsList = false;
@@ -70,6 +93,9 @@ export class LoanProductsComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/products']);
   }
 
+  /**
+   * PRevious Step (Loan Products - Products Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showLoanProductsPage = false;
     this.configurationWizardService.showLoanProductsList = false;

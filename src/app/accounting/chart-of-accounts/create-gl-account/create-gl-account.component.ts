@@ -41,7 +41,9 @@ export class CreateGlAccountComponent implements OnInit, AfterViewInit {
   /** Cancel route. (depending on creation of gl account or sub-ledger account) */
   cancelRoute = '../../';
 
+  /* Reference of accounts form */
   @ViewChild('accountFormRef') accountFormRef: ElementRef<any>;
+  /* Template for popover on accounts form */
   @ViewChild('templateAccountFormRef') templateAccountFormRef: TemplateRef<any>;
 
   /**
@@ -50,6 +52,9 @@ export class CreateGlAccountComponent implements OnInit, AfterViewInit {
    * @param {AccountingService} accountingService Accounting Service.
    * @param {ActivatedRoute} route Activated Route.
    * @param {Router} router Router for navigation.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
+   * @param {Matdialog} dialog Matdialog.
    */
   constructor(private formBuilder: FormBuilder,
               private accountingService: AccountingService,
@@ -139,10 +144,20 @@ export class CreateGlAccountComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showChartofAccountsForm === true) {
       setTimeout(() => {
@@ -151,18 +166,27 @@ export class CreateGlAccountComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Accounts Linked Accounting Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showChartofAccountsForm = false;
     this.configurationWizardService.showAccountsLinked = true;
     this.router.navigate(['/accounting']);
   }
 
+  /**
+   * Previous Step (Charts of Accounts Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showChartofAccountsForm = false;
     this.configurationWizardService.showChartofAccountsList = true;
     this.router.navigate(['/accounting/chart-of-accounts']);
   }
 
+  /**
+   * Opens dialog if the user wants to create more accounts.
+   */
   openDialog() {
   const continueSetupDialogRef = this.dialog.open(ContinueSetupDialogComponent, {
     data: {

@@ -9,6 +9,7 @@ import { AccountingService } from '../accounting.service';
 import { PopoverService } from '../../configuration-wizard/popover/popover.service';
 import { ConfigurationWizardService } from '../../configuration-wizard/configuration-wizard.service';
 
+/** Custom Dialog Component */
 import { NextStepDialogComponent } from '../../configuration-wizard/next-step-dialog/next-step-dialog.component';
 
 /**
@@ -36,7 +37,9 @@ export class CreateJournalEntryComponent implements OnInit, AfterViewInit {
   /** Gl Account data. */
   glAccountData: any;
 
+  /* Reference of create journal form */
   @ViewChild('createJournalFormRef') createJournalFormRef: ElementRef<any>;
+  /* Template for popover on create journal form */
   @ViewChild('templateCreateJournalFormRef') templateCreateJournalFormRef: TemplateRef<any>;
 
   /**
@@ -45,6 +48,8 @@ export class CreateJournalEntryComponent implements OnInit, AfterViewInit {
    * @param {AccountingService} accountingService Accounting Service.
    * @param {ActivatedRoute} route Activated Route.
    * @param {Router} router Router for navigation.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private formBuilder: FormBuilder,
               private accountingService: AccountingService,
@@ -164,10 +169,20 @@ export class CreateJournalEntryComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showCreateJournalEntries === true) {
       setTimeout(() => {
@@ -176,15 +191,24 @@ export class CreateJournalEntryComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * opens dialog for next step Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showCreateJournalEntries = false;
     this.openNextStepDialog();
   }
 
+  /**
+   * Next Step (Create journal entry Accounting Page) Configuration Wizard.
+   */
   previousStep() {
     this.router.navigate(['/accounting']);
   }
 
+  /**
+   * Next Step (Products) Dialog Configuration Wizard.
+   */
   openNextStepDialog() {
     const nextStepDialogRef = this.dialog.open( NextStepDialogComponent, {
       data: {

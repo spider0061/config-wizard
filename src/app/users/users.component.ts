@@ -32,14 +32,21 @@ export class UsersComponent implements OnInit, AfterViewInit {
   /** Sorter for users table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of create user button */
   @ViewChild('buttonCreateUser') buttonCreateUser: ElementRef<any>;
+  /* Template for popover create user button */
   @ViewChild('templateButtonCreateUser') templateButtonCreateUser: TemplateRef<any>;
+  /* Reference of users table */
   @ViewChild('usersTable') usersTable: ElementRef<any>;
+  /* Template for popover on users table */
   @ViewChild('templateUsersTable') templateUsersTable: TemplateRef<any>;
 
   /**
    * Retrieves the users data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router for navigation.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -74,10 +81,20 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showUsers === true) {
       setTimeout(() => {
@@ -92,6 +109,9 @@ export class UsersComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Create User Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showUsers = false;
     this.configurationWizardService.showUsersList = false;
@@ -99,6 +119,9 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/users/create']);
   }
 
+  /**
+   * Previous Step (Roles and Permission Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showUsers = false;
     this.configurationWizardService.showUsersList = false;

@@ -32,14 +32,21 @@ export class ManageDataTablesComponent implements OnInit, AfterViewInit {
   /** Sorter for manage data tables table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of create datatables button */
   @ViewChild('createDatatableRef') createDatatableRef: ElementRef<any>;
+  /* Template for popover on create datatables button */
   @ViewChild('templateCreateDatatableRef') templateCreateDatatableRef: TemplateRef<any>;
+  /* Reference of list of datatables */
   @ViewChild('datatablesList') datatablesList: ElementRef<any>;
+  /* Template for popover on list of datatables */
   @ViewChild('templateDatatablesList') templateDatatablesList: TemplateRef<any>;
 
   /**
    * Retrieves the data tables data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -74,10 +81,20 @@ export class ManageDataTablesComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showDatatablesPage === true) {
       setTimeout(() => {
@@ -91,6 +108,9 @@ export class ManageDataTablesComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Create data tables Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showDatatablesPage = false;
     this.configurationWizardService.showDatatablesList = false;
@@ -98,6 +118,9 @@ export class ManageDataTablesComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/system/data-tables/create']);
   }
 
+  /**
+   * Previous Step (Manage Datables system Page) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showDatatablesPage = false;
     this.configurationWizardService.showDatatablesList = false;

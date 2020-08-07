@@ -1,7 +1,9 @@
+/* Angular Imports */
 import { ComponentType, Overlay, OriginConnectionPosition, OverlayConnectionPosition, ConnectionPositionPair } from '@angular/cdk/overlay';
 import { ComponentPortal, PortalInjector, TemplatePortal } from '@angular/cdk/portal';
 import { Injectable, InjectionToken, Injector, TemplateRef, ElementRef } from '@angular/core';
 
+/* Custom Imports */
 import { PopoverConfig } from './popover-config';
 import { PopoverRef } from './popover-ref';
 import { PopoverComponent } from './popover.component';
@@ -27,8 +29,19 @@ const defaultConfig: PopoverConfig = {
   providedIn: 'root'
 })
 export class PopoverService {
+  /**
+   * @param {Injector} injector Injector.
+   * @param {overlay} overlay Overlay.
+   */
   constructor(private overlay: Overlay, private injector: Injector) { }
 
+  /**
+   * Opens the popover at target element
+   * @param {ComponentType<any> | TemplateRef<any>} componentOrTemplate ComponentType<any> | TemplateRef<any>.
+   * @param {ElementRef | HTMLElement} target ElementRef | HTMLElement.
+   * @param {string} position String.
+   * @param {Partial<PopoverConfig> = {}} config Partial<PopoverConfig> = {}.
+   */
   open<D = any>(componentOrTemplate: ComponentType<any> | TemplateRef<any>,
       target: ElementRef | HTMLElement, position: string,
       backdrop: boolean,

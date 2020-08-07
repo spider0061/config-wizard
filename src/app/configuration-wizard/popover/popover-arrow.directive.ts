@@ -1,7 +1,11 @@
+/* Angular Imports */
 import { Directive, Renderer2, ElementRef, HostBinding, ChangeDetectorRef, OnDestroy } from '@angular/core';
+
+/* rxjs Imports */
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+/* Popover Ref */
 import { PopoverRef } from './popover-ref';
 
 /**
@@ -29,6 +33,10 @@ export class PopoverArrowDirective implements OnDestroy {
 
   private subscription = new Subscription();
 
+  /**
+   * @param {PopoverRef} popoverRef PopoverRef.
+   * @param {ChangeDetectorRef} cd ChangeDetectorRef
+   */
   constructor(private popoverRef: PopoverRef,
               private cd: ChangeDetectorRef) {
     this.arrowSize = popoverRef.config.arrowSize;

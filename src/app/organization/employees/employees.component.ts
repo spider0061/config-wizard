@@ -32,14 +32,21 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
   /** Sorter for employees table. */
   @ViewChild(MatSort) sort: MatSort;
 
+  /* Reference of import employees button */
   @ViewChild('buttonImportEmployees') buttonImportEmployees: ElementRef<any>;
+  /* Template for popover on import employees button */
   @ViewChild('templateButtonImportEmployees') templateButtonImportEmployees: TemplateRef<any>;
+  /* Reference of employees table */
   @ViewChild('tableEmployees') tableEmployees: ElementRef<any>;
+  /* Template for popover on employees table */
   @ViewChild('templateTableEmployees') templateTableEmployees: TemplateRef<any>;
 
   /**
    * Retrieves the employees data from `resolve`.
    * @param {ActivatedRoute} route Activated Route.
+   * @param {Router} router Router.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -74,10 +81,20 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
     this.dataSource.sort = this.sort;
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popover.
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showEmployeeList === true) {
       setTimeout(() => {
@@ -91,6 +108,9 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Create Employee Page) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showEmployeeList = false;
     this.configurationWizardService.showEmployeeTable = false;
@@ -98,6 +118,9 @@ export class EmployeesComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/organization/employees/create']);
   }
 
+  /**
+   * Previous Step (Manage Employees) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showEmployeeList = false;
     this.configurationWizardService.showEmployeeTable = false;

@@ -23,15 +23,21 @@ export class SidenavComponent implements OnInit, AfterViewInit {
   /** Username of authenticated user. */
   username: string;
 
+  /* Refernce of logo */
   @ViewChild('logo') logo: ElementRef<any>;
+  /* Template for popover on logo */
   @ViewChild('templateLogo') templateLogo: TemplateRef<any>;
+  /* Refernce of chart of accounts */
   @ViewChild('chartOfAccounts') chartOfAccounts: ElementRef<any>;
+  /* Template for popover on chart of accounts */
   @ViewChild('templateChartOfAccounts') templateChartOfAccounts: TemplateRef<any>;
 
 
   /**
    * @param {Router} router Router for navigation.
    * @param {AuthenticationService} authenticationService Authentication Service.
+   * @param {ConfigurationWizardService} configurationWizardService ConfigurationWizard Service.
+   * @param {PopoverService} popoverService PopoverService.
    */
   constructor(private router: Router,
               private authenticationService: AuthenticationService,
@@ -54,10 +60,20 @@ export class SidenavComponent implements OnInit, AfterViewInit {
       .subscribe(() => this.router.navigate(['/login'], { replaceUrl: true }));
   }
 
+  /**
+   * Popover function
+   * @param template TemplateRef<any>.
+   * @param target HTMLElement | ElementRef<any>.
+   * @param position String.
+   * @param backdrop Boolean.
+   */
   showPopover(template: TemplateRef<any>, target: HTMLElement | ElementRef<any>, position: string, backdrop: boolean): void {
     setTimeout(() => this.popoverService.open(template, target, position, backdrop, {}), 200);
   }
 
+  /**
+   * To show popovers
+   */
   ngAfterViewInit() {
     if (this.configurationWizardService.showSideNav === true) {
       setTimeout(() => {
@@ -71,6 +87,9 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Next Step (Breadcrumbs) Configuration Wizard.
+   */
   nextStep() {
     this.configurationWizardService.showSideNav = false;
     this.configurationWizardService.showSideNavChartofAccounts = false;
@@ -80,6 +99,9 @@ export class SidenavComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/home']);
   }
 
+  /**
+   * Previous Step (Toolbar) Configuration Wizard.
+   */
   previousStep() {
     this.configurationWizardService.showSideNav = false;
     this.configurationWizardService.showSideNavChartofAccounts = false;

@@ -17,7 +17,7 @@ export class LoanProductResolver implements Resolve<Object> {
   /**
    * @param {ProductsService} productsService Products service.
    */
-  constructor(private productsService: ProductsService) {}
+  constructor(private productsService: ProductsService) { }
 
   /**
    * Returns the loan product data.

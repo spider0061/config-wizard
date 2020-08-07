@@ -2,6 +2,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
+/**
+ * Configuration Wizard Component.
+ */
 @Component({
   selector: 'mifosx-configuration-wizard',
   templateUrl: './configuration-wizard.component.html',
@@ -9,20 +12,14 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class ConfigurationWizardComponent implements OnInit {
 
-  show = false;
-
+  show: number;
+  /**
+   * @param {MatDialogRef<ConfigurationWizardComponent>} dialogRef MatDialogRef<ConfigurationWizardComponent>.
+   */
   constructor(public dialogRef: MatDialogRef<ConfigurationWizardComponent>,
   @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
-  }
-
-  close() {
-    this.dialogRef.close();
-  }
-
-  showConfigWizard() {
-    this.dialogRef.close({show: true});
   }
 
 }

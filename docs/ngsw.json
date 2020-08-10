@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1594653050950,
+  "timestamp": 1597076280719,
   "index": "https://spider0061.github.io/config-wizard/index.html",
   "assetGroups": [
     {
@@ -8,15 +8,15 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
-        "https://spider0061.github.io/config-wizard/10.fce207cd196e0ec6ab04.js",
-        "https://spider0061.github.io/config-wizard/11.ca3129e51557286b8726.js",
-        "https://spider0061.github.io/config-wizard/12.db82b83df7142a68363a.js",
-        "https://spider0061.github.io/config-wizard/13.246f2303d77038d92f9a.js",
+        "https://spider0061.github.io/config-wizard/10.20d41dd6b19cfe5b53c4.js",
+        "https://spider0061.github.io/config-wizard/11.8d056e75878ca8d1ae3a.js",
+        "https://spider0061.github.io/config-wizard/12.67b43394472878827091.js",
+        "https://spider0061.github.io/config-wizard/13.266747f307a477930def.js",
         "https://spider0061.github.io/config-wizard/favicon.ico",
         "https://spider0061.github.io/config-wizard/index.html",
-        "https://spider0061.github.io/config-wizard/main.4b8613d65d1c30da4143.js",
+        "https://spider0061.github.io/config-wizard/main.c02742148c184681308f.js",
         "https://spider0061.github.io/config-wizard/polyfills.3c2fff24a9b33ef0dd64.js",
-        "https://spider0061.github.io/config-wizard/runtime.3a134b79229790dfc2d1.js",
+        "https://spider0061.github.io/config-wizard/runtime.0b1c0ac58bf08293ba7f.js",
         "https://spider0061.github.io/config-wizard/styles.34232ed8c643f9218a55.css"
       ],
       "patterns": []
@@ -62,10 +62,10 @@
   ],
   "dataGroups": [],
   "hashTable": {
-    "https://spider0061.github.io/config-wizard/10.fce207cd196e0ec6ab04.js": "39cafcf16cf4c9403eff73e6ec02120ad976d189",
-    "https://spider0061.github.io/config-wizard/11.ca3129e51557286b8726.js": "974b5ff18515a4051c01d4c83394debe20127cff",
-    "https://spider0061.github.io/config-wizard/12.db82b83df7142a68363a.js": "7b72f324886f06b9c9c049842640baa7ed4b2cef",
-    "https://spider0061.github.io/config-wizard/13.246f2303d77038d92f9a.js": "fb08e8d246dc2e3c9ed96c35ba6036c29cc1d49f",
+    "https://spider0061.github.io/config-wizard/10.20d41dd6b19cfe5b53c4.js": "39cafcf16cf4c9403eff73e6ec02120ad976d189",
+    "https://spider0061.github.io/config-wizard/11.8d056e75878ca8d1ae3a.js": "3824843ad171301f94fe766a39a7d1f64a117803",
+    "https://spider0061.github.io/config-wizard/12.67b43394472878827091.js": "e899c8b553c62078c4bd5d8d1c7fae45f83a2adb",
+    "https://spider0061.github.io/config-wizard/13.266747f307a477930def.js": "fb08e8d246dc2e3c9ed96c35ba6036c29cc1d49f",
     "https://spider0061.github.io/config-wizard/assets/images/MifosX_logo.png": "fc66de5965e6054007a0e0c9e68f24f1ee250c21",
     "https://spider0061.github.io/config-wizard/assets/images/MifosX_logoSmall.png": "ebd340185b4888fdbe26b364303d2c072412b46e",
     "https://spider0061.github.io/config-wizard/assets/images/center_placeholder.png": "7535aae61f21019b5285401cba972d489e8801a6",
@@ -97,10 +97,10 @@
     "https://spider0061.github.io/config-wizard/assets/styles/_width-height.scss": "5dc8064a0054dcdf7f15c96673e647beeb6af019",
     "https://spider0061.github.io/config-wizard/assets/styles/_z-index.scss": "9a37d216cb5d806887da931429725a28b3d731b8",
     "https://spider0061.github.io/config-wizard/favicon.ico": "31d1d887b9dec1f49614f289d6855f5ffa7c0902",
-    "https://spider0061.github.io/config-wizard/index.html": "c6ab0019116ef1f3453a35af9f8a7558f7b57119",
-    "https://spider0061.github.io/config-wizard/main.4b8613d65d1c30da4143.js": "4964d2f8680846f361116fbe9de1e9a84e1b1f28",
+    "https://spider0061.github.io/config-wizard/index.html": "da442f5e0e714a07ff267b3e9fc8ec8a057db4bf",
+    "https://spider0061.github.io/config-wizard/main.c02742148c184681308f.js": "e0c11c277791a5d8064a3f865211339a52cafeaf",
     "https://spider0061.github.io/config-wizard/polyfills.3c2fff24a9b33ef0dd64.js": "6946e10a03311677a01490b8e91741668e64e17e",
-    "https://spider0061.github.io/config-wizard/runtime.3a134b79229790dfc2d1.js": "f9d753eb96f01d6adc36e235b50439cf049ca4e1",
+    "https://spider0061.github.io/config-wizard/runtime.0b1c0ac58bf08293ba7f.js": "fe98e8e7330849cd583556ad72c70e578420a9b5",
     "https://spider0061.github.io/config-wizard/styles.34232ed8c643f9218a55.css": "59d9be93e9ab824c7fe181cd21dda2e97062b790"
   },
   "navigationUrls": [
